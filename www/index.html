@@ -22,8 +22,8 @@
         <meta charset="utf-8" />
         <meta name="format-detection" content="telephone=no" />
         <!-- WARNING: for iOS 7, remove the width=device-width and height=device-height attributes. See https://issues.apache.org/jira/browse/CB-4323 -->
-        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
-        <link rel="stylesheet" type="text/css" href="css/index.css" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" media="screen"/>
         <title>Hello World</title>
     </head>
     <body>
@@ -36,10 +36,22 @@
             </div>
         </div>
         -->
-        <canvas id="display" width="260" height="140">
-          Your browser is unfortunately not supported.
-        </canvas>
+        <div class="text-center">
+          <div>
+            <canvas id="display" width="260" height="140">
+              Your browser is unfortunately not supported.
+            </canvas>
+          </div>
+          <div>
+            <button id="start-btn" class="btn btn-success">Start</button>
+            <button id="stop-btn" class="btn btn-danger">Stop</button>
+          </div>
+        </div>
+        <!--
+        <script type="text/javascript" src="js/bootstrap.min.js"></script>
+        -->
         <!--<script type="text/javascript" src="cordova.js"></script>-->
+        <script type="text/javascript" src="js/jquery-2.1.0.min.js"></script>
         <script type="text/javascript" src="js/index.js"></script>
         <script type="text/javascript" src="js/segment-display.js"></script>
         <script type="text/javascript">
@@ -64,7 +76,7 @@
           display.draw();
           display.setValue('0000000.0');
 
-          window.setInterval('animate()', 100);
+          var timerId;
 
           function animate() {
             var valueStr;
@@ -84,6 +96,20 @@
             valueStr = valueStr.slice(secondsStr.length) + "." + animate.numMilliseconds.toString();
             display.setValue(valueStr);
           }
+
+          function startTimer() {
+            console.log("start");
+            timerId = window.setInterval('animate()', 100);
+          }
+
+          function stopTimer() {
+            console.log("stop");
+            window.clearInterval(timerId);
+          }
+
+          // Bindings
+          $("#start-btn").click(startTimer);
+          $("#stop-btn").click(stopTimer);
 
         </script>
     </body>
