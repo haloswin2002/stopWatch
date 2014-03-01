@@ -27,6 +27,7 @@
         <title>Hello World</title>
     </head>
     <body>
+        <!--
         <div class="app">
             <h1>Apache Cordova</h1>
             <div id="deviceready" class="blink">
@@ -34,10 +35,56 @@
                 <p class="event received">Device is Ready</p>
             </div>
         </div>
-        <script type="text/javascript" src="cordova.js"></script>
+        -->
+        <canvas id="display" width="260" height="140">
+          Your browser is unfortunately not supported.
+        </canvas>
+        <!--<script type="text/javascript" src="cordova.js"></script>-->
         <script type="text/javascript" src="js/index.js"></script>
+        <script type="text/javascript" src="js/segment-display.js"></script>
         <script type="text/javascript">
-            app.initialize();
+          app.initialize();
+        </script>
+        <!-- Create stopwatch -->
+        <script type="text/javascript" src="js/segment-display.js"></script>
+        <script type="text/javascript">
+
+          var display = new SegmentDisplay("display");
+          display.pattern         = "#######.#";
+          display.displayAngle    = 5;
+          display.digitHeight     = 20;
+          display.digitWidth      = 15;
+          display.digitDistance   = 2.5;
+          display.segmentWidth    = 2;
+          display.segmentDistance = 0.1;
+          display.segmentCount    = 16;
+          display.cornerType      = 3;
+          display.colorOn         = "#090909";
+          display.colorOff        = "#c8c8c8";
+          display.draw();
+          display.setValue('0000000.0');
+
+          window.setInterval('animate()', 100);
+
+          function animate() {
+            var valueStr;
+            var secondsStr;
+            var count;
+            if (typeof animate.numMilliseconds == 'undefined') {
+              animate.numMilliseconds = 0;
+              animate.numSeconds = 0;
+            }
+            animate.numMilliseconds++;
+            if (animate.numMilliseconds > 9) {
+              animate.numMilliseconds = 0;
+              animate.numSeconds++;
+            }
+            secondsStr = animate.numSeconds.toString();
+            valueStr = "0000000" + secondsStr;
+            valueStr = valueStr.slice(secondsStr.length) + "." + animate.numMilliseconds.toString();
+            display.setValue(valueStr);
+          }
+
         </script>
     </body>
 </html>
