@@ -30,7 +30,7 @@
         <!-- Create graphical elements -->
         <div class="text-center">
           <!-- Canvas is where the 15-segment display is drawn -->
-          <div>
+          <div class>
             <canvas id="display" width="260" height="140">
               Your browser is unfortunately not supported.
             </canvas>
@@ -39,13 +39,23 @@
           <div>
             <button id="start-btn" class="btn btn-success">Start</button>
             <button id="stop-btn" class="btn btn-danger">Stop</button>
+            <button id="clr-btn" class="btn btn-primary">Clear</button>
+            <button id="submit-btn" class="btn btn-inverse btn-large">Submit</button>
           </div>
+          <!--
+          <div class="btn-toolbar">
+            <div class="btn-group">
+              <a id="start-btn" class="btn btn-success">Start</button>
+              <a id="stop-btn" class="btn btn-danger">Stop</button>
+              <a id="clr-btn" class="btn btn-primary">Clear</button>
+            </div>
+          </div>
+          -->
         </div>
 
         <!-- Include scripts to use -->
         <script type="text/javascript" src="js/jquery-2.1.0.min.js"></script>
         <script type="text/javascript" src="js/index.js"></script>
-        <script type="text/javascript" src="js/segment-display.js"></script>
         <script type="text/javascript" src="js/segment-display.js"></script>
 
         <!-- Initialize and wait for device to be ready -->
@@ -55,31 +65,29 @@
 
         <!-- Create stopwatch -->
         <script type="text/javascript">
+          var timerId = -1;
 
           var display = new SegmentDisplay("display");
           display.pattern         = "#######.#";
-          display.displayAngle    = 5;
+          display.displayAngle    = 10;
           display.digitHeight     = 20;
-          display.digitWidth      = 15;
+          display.digitWidth      = 12;
           display.digitDistance   = 2.5;
-          display.segmentWidth    = 2;
-          display.segmentDistance = 0.1;
-          display.segmentCount    = 16;
-          display.cornerType      = 3;
-          display.colorOn         = "#090909";
-          display.colorOff        = "#c8c8c8";
+          display.segmentWidth    = 2.5;
+          display.segmentDistance = 0.5;
+          display.segmentCount    = 7;
+          display.cornerType      = 2;
+          display.colorOn         = "#000000";
+          display.colorOff        = "#e2e2e2";
           display.draw();
-          display.setValue('0000000.0');
-
-          var timerId;
+          clearTimer();
 
           function animate() {
             var valueStr;
             var secondsStr;
             var count;
             if (typeof animate.numMilliseconds == 'undefined') {
-              animate.numMilliseconds = 0;
-              animate.numSeconds = 0;
+              clearTimer();
             }
             animate.numMilliseconds++;
             if (animate.numMilliseconds > 9) {
@@ -92,19 +100,42 @@
             display.setValue(valueStr);
           }
 
+          function stopTimer() {
+            //console.log("stop");
+            window.clearInterval(timerId);
+            timerId = -1;
+          }
+
           function startTimer() {
-            console.log("start");
+            //console.log("start");
+            stopTimer();
             timerId = window.setInterval('animate()', 100);
           }
 
-          function stopTimer() {
-            console.log("stop");
-            window.clearInterval(timerId);
+          function clearTimer() {
+            //console.log("clear");
+            if (timerId == -1) {
+              animate.numMilliseconds = 0;
+              animate.numSeconds = 0;
+              display.setValue('0000000.0');
+            }
+          }
+
+          function submitTimer() {
+            if (animate.numSeconds == 0 && animate.numMilliseconds == 0) {
+              //console.log("nothing to submit");
+            }
+            else {
+              //console.log("submit", animate.numSeconds, animate.numMilliseconds);
+              clearTimer();
+            }
           }
 
           // Bindings
           $("#start-btn").click(startTimer);
           $("#stop-btn").click(stopTimer);
+          $("#clr-btn").click(clearTimer);
+          $("#submit-btn").click(submitTimer);
 
         </script>
     </body>
