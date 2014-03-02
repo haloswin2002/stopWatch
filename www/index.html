@@ -57,6 +57,7 @@
         <script type="text/javascript" src="js/jquery-2.1.0.min.js"></script>
         <script type="text/javascript" src="js/index.js"></script>
         <script type="text/javascript" src="js/segment-display.js"></script>
+        <script type="text/javascript" src="js/stopWatch.js"></script>
 
         <!-- Initialize and wait for device to be ready -->
         <script type="text/javascript">
@@ -65,77 +66,13 @@
 
         <!-- Create stopwatch -->
         <script type="text/javascript">
-          var timerId = -1;
-
-          var display = new SegmentDisplay("display");
-          display.pattern         = "#######.#";
-          display.displayAngle    = 10;
-          display.digitHeight     = 20;
-          display.digitWidth      = 12;
-          display.digitDistance   = 2.5;
-          display.segmentWidth    = 2.5;
-          display.segmentDistance = 0.5;
-          display.segmentCount    = 7;
-          display.cornerType      = 2;
-          display.colorOn         = "#000000";
-          display.colorOff        = "#e2e2e2";
-          display.draw();
-          clearTimer();
-
-          function animate() {
-            var valueStr;
-            var secondsStr;
-            var count;
-            if (typeof animate.numMilliseconds == 'undefined') {
-              clearTimer();
-            }
-            animate.numMilliseconds++;
-            if (animate.numMilliseconds > 9) {
-              animate.numMilliseconds = 0;
-              animate.numSeconds++;
-            }
-            secondsStr = animate.numSeconds.toString();
-            valueStr = "0000000" + secondsStr;
-            valueStr = valueStr.slice(secondsStr.length) + "." + animate.numMilliseconds.toString();
-            display.setValue(valueStr);
-          }
-
-          function stopTimer() {
-            //console.log("stop");
-            window.clearInterval(timerId);
-            timerId = -1;
-          }
-
-          function startTimer() {
-            //console.log("start");
-            stopTimer();
-            timerId = window.setInterval('animate()', 100);
-          }
-
-          function clearTimer() {
-            //console.log("clear");
-            if (timerId == -1) {
-              animate.numMilliseconds = 0;
-              animate.numSeconds = 0;
-              display.setValue('0000000.0');
-            }
-          }
-
-          function submitTimer() {
-            if (animate.numSeconds == 0 && animate.numMilliseconds == 0) {
-              //console.log("nothing to submit");
-            }
-            else {
-              //console.log("submit", animate.numSeconds, animate.numMilliseconds);
-              clearTimer();
-            }
-          }
+          var display = new StopWatch("display");
 
           // Bindings
-          $("#start-btn").click(startTimer);
-          $("#stop-btn").click(stopTimer);
-          $("#clr-btn").click(clearTimer);
-          $("#submit-btn").click(submitTimer);
+          $("#start-btn").click(StopWatch.startTimer);
+          $("#stop-btn").click(StopWatch.stopTimer);
+          $("#clr-btn").click(StopWatch.clearTimer);
+          $("#submit-btn").click(StopWatch.submitTimer);
 
         </script>
     </body>
