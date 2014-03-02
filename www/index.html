@@ -57,7 +57,7 @@
         <script type="text/javascript" src="js/jquery-2.1.0.min.js"></script>
         <script type="text/javascript" src="js/index.js"></script>
         <script type="text/javascript" src="js/segment-display.js"></script>
-        <script type="text/javascript" src="js/stopWatch.js"></script>
+        <script type="text/javascript" src="js/stopwatch.js"></script>
 
         <!-- Initialize and wait for device to be ready -->
         <script type="text/javascript">
@@ -68,11 +68,27 @@
         <script type="text/javascript">
           var display = new StopWatch("display");
 
+          startButtonClicked = function() {
+            display.startTimer();
+          }
+
+          stopButtonClicked = function() {
+            display.stopTimer();
+          }
+
+          clrButtonClicked = function() {
+            display.clearTimer();
+          }
+
+          submitButtonClicked = function() {
+            display.submitTimer();
+          }
+
           // Bindings
-          $("#start-btn").click(StopWatch.startTimer);
-          $("#stop-btn").click(StopWatch.stopTimer);
-          $("#clr-btn").click(StopWatch.clearTimer);
-          $("#submit-btn").click(StopWatch.submitTimer);
+          $("#start-btn").click(startButtonClicked);
+          $("#stop-btn").click(stopButtonClicked);
+          $("#clr-btn").click(clrButtonClicked);
+          $("#submit-btn").click(submitButtonClicked);
 
         </script>
     </body>

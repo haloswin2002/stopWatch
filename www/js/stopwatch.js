@@ -10,6 +10,7 @@ StopWatch.numSeconds = 0;
 
 function StopWatch(stopWatchId) {
   // Initialize Segment variables
+  var self = this;
   StopWatch.displayId = new SegmentDisplay(stopWatchId);
   StopWatch.displayId.pattern         = "#######.#";
   StopWatch.displayId.displayAngle    = 10;
@@ -25,7 +26,7 @@ function StopWatch(stopWatchId) {
   StopWatch.displayId.draw();
   // Initialize Stop Watch variables
   this.clearTimer();
-  this.animate();
+  return this;
 }
 
 StopWatch.prototype.animate = function() {
@@ -56,15 +57,15 @@ StopWatch.prototype.clearTimer = function() {
 }
 
 StopWatch.prototype.stopTimer = function() {
-  console.log("stop");
+  //console.log("stop");
   window.clearInterval(StopWatch.timerId);
   StopWatch.timerId = -1;
 }
 
 StopWatch.prototype.startTimer = function() {
-  console.log("start");
+  //console.log("start");
   this.stopTimer();
-  StopWatch.timerId = window.setInterval('this.animate()', 100);
+  StopWatch.timerId = window.setInterval(this.animate, 100);
 }
 
 StopWatch.prototype.submitTimer = function() {
